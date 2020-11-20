@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+
+  h2:
+    console:
+      enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
+
+  jpa:
+    database-platform: H2
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      format_sql: true
+      use_sql_comments: true
+      new_generator_mappings: true
+
+  datasource:
+    platform: h2
+    url: jdbc:h2:~/testdb;MODE=mysql;
+#    url: jdbc:h2:mem:testdb;MODE=mysql;
+    driver-class-name: org.h2.Driver  #h2 드라이버 설정
+    username: sa  # 사용자 이름 (로그인 시 사용)
+
+server:
+  port: 8888
+
