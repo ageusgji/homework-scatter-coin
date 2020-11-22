@@ -14,6 +14,7 @@ import com.ageusgji.kakaopay.coinScatter.web.ReceiveRequest;
 import com.ageusgji.kakaopay.coinScatter.web.ScatterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -28,15 +29,24 @@ public class CoinScatterService {
     @Autowired
     private ReceiverRepository receiverRepository;
 
-    /**
-     * https://www.baeldung.com/java-random-string
-     *
-     * @param scatterRequest
-     * @return randomStr
-     */
     public CommonResponse scatter(ScatterRequest scatterRequest) {
+        return scatter(scatterRequest, 60);
 
-        String token = generateToken(scatterRequest.getRoomId());
+    }
+        /**
+         * https://www.baeldung.com/java-random-string
+         *
+         * @param scatterRequest
+         * @return randomStr
+         */
+    public CommonResponse scatter(ScatterRequest scatterRequest, int limitMin) {
+
+        Assert.notNull(scatterRequest.getRoomId(),CoinScatterExceptionType.NO_ARG_ROOM_ID.getErrorMessage());
+        Assert.notNull(scatterRequest.getHeadCount(),CoinScatterExceptionType.NO_ARG_HEAD_CNT.getErrorMessage());
+        Assert.notNull(scatterRequest.getUserNo(),CoinScatterExceptionType.NO_ARG_USER_NO.getErrorMessage());
+        Assert.notNull(scatterRequest.getTotalCoin(),CoinScatterExceptionType.NO_ARG_COINS.getErrorMessage());
+
+        String token = generateToken(scatterRequest.getRoomId(), limitMin);
 
         // 개별 받게 될 금액 : eachCoin = ( totalCoin / headCount )
         Long eachCoin = scatterRequest.getTotalCoin() / scatterRequest.getHeadCount();
@@ -66,9 +76,9 @@ public class CoinScatterService {
     }
 
 
-    private String generateToken(String roomId) {
+    private String generateToken(String roomId, int limitMin) {
 
-        LocalDateTime limitAt = LocalDateTime.now().plusSeconds(60);
+        LocalDateTime limitAt = LocalDateTime.now().plusSeconds(limitMin);
 
         while (LocalDateTime.now().isBefore(limitAt)) {
 
@@ -94,6 +104,11 @@ public class CoinScatterService {
 
 
     public CommonResponse receive(ReceiveRequest receiveRequest) {
+
+        Assert.notNull(receiveRequest.getRoomId(),CoinScatterExceptionType.NO_ARG_ROOM_ID.getErrorMessage());
+        Assert.notNull(receiveRequest.getUserNo(),CoinScatterExceptionType.NO_ARG_USER_NO.getErrorMessage());
+        Assert.notNull(receiveRequest.getToken(),CoinScatterExceptionType.NO_ARG_TOKEN.getErrorMessage());
+
         LocalDateTime now = LocalDateTime.now();
         Long receiveUserNo = receiveRequest.getUserNo();
 

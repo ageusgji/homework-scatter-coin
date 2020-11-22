@@ -12,8 +12,14 @@ public class BaseExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(CoinScatterException.class)
-    public ResponseEntity<CommonResponse> commonException(CoinScatterException exception){
-        return new ResponseEntity<>(CommonResponse.error(exception.getExceptionType()), HttpStatus.OK);
+    public ResponseEntity<CommonResponse> commonException(CoinScatterException e) {
+        return new ResponseEntity<>(CommonResponse.error(e.getExceptionType()), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<CommonResponse> illegalArgException(CoinScatterException e) {
+        return new ResponseEntity<>(CommonResponse.fail(e.getExceptionType()), HttpStatus.OK);
     }
 
 

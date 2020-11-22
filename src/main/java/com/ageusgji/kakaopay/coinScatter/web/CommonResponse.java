@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
@@ -23,12 +24,12 @@ public class CommonResponse<T> {
         return new CommonResponse(true, null, 200, "", data);
     }
 
-    public static CommonResponse fail(Integer errCode, String errMsg) {
-        return new CommonResponse(false, errCode, 200, "요청한 작업이 실패했습니다.", null);
+    public static CommonResponse fail(BaseExceptionType e) {
+        return new CommonResponse(false,  e.getErrorCode(), HttpStatus.EXPECTATION_FAILED.value(), e.getErrorMessage(), null);
     }
 
-    public static CommonResponse error(BaseExceptionType exception) {
-        return new CommonResponse(false, exception.getErrorCode(), exception.getHttpStatus(), exception.getErrorMessage(), null);
+    public static CommonResponse error(BaseExceptionType e) {
+        return new CommonResponse(false, e.getErrorCode(), e.getHttpStatus(), e.getErrorMessage(), null);
     }
 
 }

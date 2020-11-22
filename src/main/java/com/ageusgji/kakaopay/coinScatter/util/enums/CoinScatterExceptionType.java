@@ -2,6 +2,7 @@ package com.ageusgji.kakaopay.coinScatter.util.enums;
 
 import com.ageusgji.kakaopay.coinScatter.util.exception.BaseExceptionType;
 import lombok.Getter;
+import org.springframework.util.Assert;
 
 @Getter
 public enum CoinScatterExceptionType implements BaseExceptionType {
@@ -21,8 +22,14 @@ public enum CoinScatterExceptionType implements BaseExceptionType {
     // TODO: throw error exception!!! - 찾았는데 없음.
     NOT_FOUND_SCATTER(1021, 200, "받은사람을 찾을 수 없습니다."),
 
+    NO_ARG_ROOM_ID(1101, 200, "대화방 식별자가 없습니다."),
+    NO_ARG_HEAD_CNT(1102, 200, "받을 인원이 없습니다."),
+    NO_ARG_USER_NO(1103, 200, "뿌리는 사람 값이 없습니다."),
+    NO_ARG_COINS(1104, 200, "뿌리는 금액이 없습니다."),
+    NO_ARG_TOKEN(1105, 200, "토큰값이 없습니다."),
 
-    LOGIN_INFORMATION_NOT_FOUND(1004, 200, "로그인 정보를 찾을 수 없습니다. (세션 만료)");
+    OTHER_EXCEPTION(0000, 200, "기타 오류");
+
 
     private int errorCode;
     private int httpStatus;
