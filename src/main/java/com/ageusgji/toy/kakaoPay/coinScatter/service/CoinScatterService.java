@@ -116,17 +116,20 @@ public class CoinScatterService {
         Scatterer targetScatterer = scatterers.get(0);
 
         // Validate : 뿌리기 한 사람이 받는가?
-        // Validate : 모든인원이 받았는가?
         if (targetScatterer.getUserNo().equals(receiveUserNo)){
             // TODO: throw logical exception!!! - 뿌린사람이 또 받아?
             throw new CoinScatterException(CoinScatterExceptionType.SCATTER_OWNER);
-        } else if(targetScatterer.getHeadCount().equals(targetScatterer.getReceiverCount())){
+        }
+
+        List<Receiver> receivers = receiveRepository
+                .findAllByScattererId(targetScatterer.getId());
+
+        // Validate : 모든인원이 받았는가?
+        if(targetScatterer.getHeadCount().compareTo(receivers.size()) <= 0 ){
             // TODO: throw logical exception!!! - 모든 사람이 다 받았다!!
             throw new CoinScatterException(CoinScatterExceptionType.NO_COIN_LEFT);
         }
 
-        List<Receiver> receivers = receiveRepository
-                .findAllByScattererIdAndUserNo(targetScatterer.getId(),receiveRequest.getUserNo());
 
         // Validate : 받은사람이 또 받았는가?
         if (receivers.stream().anyMatch(r-> r.getUserNo().equals(receiveUserNo))){
@@ -137,9 +140,8 @@ public class CoinScatterService {
         // 몇번째 차례인가? 마지막 차례이면 보너스 코인을 가져온다.
         Integer thisTurn = receivers.size() + 1;
         Long bonusCoin = 0L;
-        if(thisTurn.equals(targetScatterer.getHeadCount())){
+        if(thisTurn.compareTo(targetScatterer.getHeadCount()) == 0 ){
             bonusCoin = targetScatterer.getBonusCoin();
-
         }
         Long receivedCoin = targetScatterer.getEachCoin() + bonusCoin;
 

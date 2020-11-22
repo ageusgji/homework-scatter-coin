@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Repository
 public interface ReceiveRepository extends JpaRepository<Receiver, Long> {
-    List<Receiver> findAllByScattererIdAndUserNo(Long scattererId, Long userNo);
     List<Receiver> findAllByScattererId(Long scattererId);
+//    List<Receiver> findAllByScattererIdAndUserNo(Long scattererId, Long userNo);
 //    List<Receiver> findAllByScattererIdsAndUserNo(Set<Long> scattererIds, Long userNo);
 
 
