@@ -6,17 +6,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ScatterRequest {
+public class ReceiveRequest {
     private Long userNo;
     private String roomId;
-    private Integer headCount;
-    private Long totalCoin;
+    private String token;
 
     @Builder
-    public ScatterRequest(Long userNo, String roomId, Integer headCount, Long totalCoin) {
+    public ReceiveRequest(Long userNo, String roomId, String token) {
         this.userNo = userNo;
         this.roomId = roomId;
-        this.headCount = headCount;
-        this.totalCoin = totalCoin;
+        this.token = token;
     }
+
 }

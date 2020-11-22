@@ -9,18 +9,20 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+@Getter
 @MappedSuperclass
 abstract class CommonField {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreationTimestamp
-    private Date createAt;
+    private LocalDateTime createAt;
     @UpdateTimestamp
-    private Date updateAt;
+    private LocalDateTime updateAt;
 
 }

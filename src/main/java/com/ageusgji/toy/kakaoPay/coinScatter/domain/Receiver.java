@@ -1,17 +1,20 @@
 package com.ageusgji.toy.kakaoPay.coinScatter.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Scanner;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Receiver extends CommonField {
 
     @Column(nullable = false)
@@ -24,20 +27,16 @@ public class Receiver extends CommonField {
     private Long coin;
 
     @Column
-    private Long bonusCoin;
+    private Integer turn;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    @JoinColumn(name = "MENU_MNGT_SEQ", nullable = false)
-//    private Scatter scatter;
+    @Builder
+    public Receiver(Long scattererId, Long userNo, Long coin, Integer turn) {
+        this.scattererId = scattererId;
+        this.userNo = userNo;
+        this.coin = coin;
+        this.turn = turn;
+    }
 
-/**
- * 	- id <PK>
- * 	- userId 			## 받은사람 id
- * 	- coin 				## 받은 금액
- * 	- rank
- * 	- rcvDateTime :=> regDateTime 으로 대체
- */
 
 
 }
