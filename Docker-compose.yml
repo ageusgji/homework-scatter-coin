@@ -18,11 +18,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      MYSQL_USERNAME: root
-      MYSQL_PASSWORD: root
     ports:
       - 8888:8888
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
     restart: always
     links:
       - mysql

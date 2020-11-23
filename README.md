@@ -1,8 +1,11 @@
 # 뿌리기 기능 구현
-## install
+## Install  
 
-## Docker  
+> ```$ docker-compose up```
 
+## Only App Install    
+> build : ```$ docker build -t coinscatterapp . ```  
+> run :  ```$ docker run coinscatterapp ```  
 ## Swagger
 - URI : 
   ```http://localhost:8888/swagger-ui.html```   
