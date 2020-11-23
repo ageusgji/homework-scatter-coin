@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 public class DisplayDTO {
 
     private LocalDateTime scatterAt;
-    private Long scatterCoin;
+    private Long totalCoin;
     private Long receivedCoin;
 
     private List<ReceivererDTO> receiverList;
 
     public DisplayDTO(Scatterer scatterer, List<Receiver> receiverList) {
         this.scatterAt = scatterer.getCreateAt();
-        this.scatterCoin = scatterer.getTotalCoin();
+        this.totalCoin = scatterer.getTotalCoin();
         this.receivedCoin = scatterer.getTotalCoin() - scatterer.getRemainCoin();
         List<ReceivererDTO> receivers = receiverList.stream().map(r->{
             ReceivererDTO receivererDto = new ReceivererDTO();

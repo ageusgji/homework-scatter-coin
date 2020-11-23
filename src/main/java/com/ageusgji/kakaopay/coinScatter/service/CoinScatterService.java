@@ -134,7 +134,7 @@ public class CoinScatterService {
         // Validate : 모든인원이 받았는가?
         if (targetScatterer.getUserNo().equals(receiveUserNo)){
             // TODO: throw logical exception!!! - 뿌린사람이 또 받아?
-            throw new CoinScatterException(CoinScatterExceptionType.SCATTER_OWNER);
+            throw new CoinScatterException(CoinScatterExceptionType.NOT_SCATTER_OWNER);
         } else if(targetScatterer.getHeadCount().equals(targetScatterer.getReceiverCount())){
             // TODO: throw logical exception!!! - 모든 사람이 다 받았다!!
             throw new CoinScatterException(CoinScatterExceptionType.NO_COIN_LEFT);
@@ -187,8 +187,8 @@ public class CoinScatterService {
         Scatterer scatterer = scattererRepository
                 .findAllByRoomIdAndToken(receiveRequest.getRoomId(), receiveRequest.getToken())
                 .stream().findFirst().orElseThrow(()->{
-                    // TODO: throw logical exception!!! - 찾았는데 없음.
-                    throw new CoinScatterException(CoinScatterExceptionType.NOT_FOUND_TOKEN);
+                    // TODO: throw logical exception!!! - 뿌리기를 찾았는데 없음.
+                    throw new CoinScatterException(CoinScatterExceptionType.NOT_FOUND_SCATTER);
                 });
 
         List<Receiver> receivers = receiverRepository

@@ -1,6 +1,7 @@
 package com.ageusgji.kakaopay.coinScatter.service;
 
 import com.ageusgji.kakaopay.coinScatter.dto.CoinDTO;
+import com.ageusgji.kakaopay.coinScatter.dto.DisplayDTO;
 import com.ageusgji.kakaopay.coinScatter.dto.TokenDTO;
 import com.ageusgji.kakaopay.coinScatter.util.enums.CoinScatterExceptionType;
 import com.ageusgji.kakaopay.coinScatter.util.exception.CoinScatterException;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -129,7 +129,6 @@ class CoinScatterServiceTest {
         try {
             coinScatterService.scatter(scatterUserRequest, -1);
         } catch (CoinScatterException e) {
-            final int errorCode = e.getExceptionType().getErrorCode();
             log.info(e.getMessage());
             Assertions.assertEquals(e.getExceptionType(), CoinScatterExceptionType.TIMEOUT_GEN_TOKEN);
         }
@@ -157,14 +156,72 @@ class CoinScatterServiceTest {
                 .token(token)
                 .build();
 
-
         CommonResponse<CoinDTO> coinDTOCommonResponse = coinScatterService.receive(receiveRequest);
-
 
         assertNotNull(coinDTOCommonResponse);
         assertNotNull(coinDTOCommonResponse.getData());
         assertTrue(coinDTOCommonResponse.getData().getCoin() > 0L);
     }
 
+    @Test
+    public void displayTest01(){
+
+        int headCount = 14;
+        ScatterRequest scatterUserRequest = ScatterRequest.builder()
+                .userNo(100L)
+                .roomId("CRoom")
+                .headCount(headCount)
+                .totalCoin(83749L)
+                .build();
+
+        CommonResponse<TokenDTO> commonResponse = coinScatterService.scatter(scatterUserRequest);
+        String token = commonResponse.getData().getToken();
+
+        for (int i = 0; i < headCount; i++) {
+            ReceiveRequest receiveRequest = ReceiveRequest.builder()
+                    .userNo(1001L+i)
+                    .roomId("CRoom")
+                    .token(token)
+                    .build();
+
+            coinScatterService.receive(receiveRequest);
+        }
+
+        ReceiveRequest displayRequest = ReceiveRequest.builder()
+                .userNo(100L)
+                .roomId("CRoom")
+                .token(token)
+                .build();
+
+        CommonResponse<DisplayDTO> displayResponse = coinScatterService.display(displayRequest);
+
+        assertNotNull(displayResponse);
+        assertNotNull(displayResponse.getData());
+        assertTrue(displayResponse.getData().getTotalCoin() >= displayResponse.getData().getReceivedCoin());
+        assertNotNull(displayResponse.getData().getReceiverList());
+        assertEquals(displayResponse.getData().getReceiverList().size(), headCount);
+
+    }
+
+
+    @Test
+    public void display_토큰값으로_찾았지만없음(){
+
+        ReceiveRequest displayRequest = ReceiveRequest.builder()
+                .userNo(100L)
+                .roomId("CRoom")
+                .token("Asz")
+                .build();
+
+        CommonResponse<DisplayDTO> displayResponse ;
+
+        try {
+            displayResponse = coinScatterService.display(displayRequest);
+        } catch (CoinScatterException e) {
+            log.info(e.getMessage());
+            Assertions.assertEquals(e.getExceptionType(), CoinScatterExceptionType.NOT_FOUND_SCATTER);
+        }
+
+    }
 
 }

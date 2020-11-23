@@ -20,10 +20,10 @@ public class CoinScatterController {
 
     @GetMapping(value = "/scatter")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "111"),
-            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "rrr"),
-            @ApiImplicitParam(name = "headCount", paramType = "query", defaultValue = "3"),
-            @ApiImplicitParam(name = "coins", paramType = "query", defaultValue = "1000")
+            @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "7382"),
+            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "NeaMO"),
+            @ApiImplicitParam(name = "headCount", paramType = "query", defaultValue = "121"),
+            @ApiImplicitParam(name = "coins", paramType = "query", defaultValue = "84748")
     })
     public ResponseEntity<CommonResponse> scatter(@RequestHeader("X-USER-ID") Long userNo,
                                           @RequestHeader("X-ROOM-ID") String roomId,
@@ -45,8 +45,8 @@ public class CoinScatterController {
 
     @GetMapping(value = "/receive")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "1111"),
-            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "rrr")
+            @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "70023"),
+            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "NeaMO")
     })
     public ResponseEntity<CommonResponse> receive(@RequestHeader("X-USER-ID") Long userNo,
                                           @RequestHeader("X-ROOM-ID") String roomId,
@@ -65,20 +65,20 @@ public class CoinScatterController {
 
     @GetMapping(value = "/display")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "111"),
-            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "rrr")
+            @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "7382"),
+            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "NaeMO")
     })
     public ResponseEntity<CommonResponse> display(@RequestHeader("X-USER-ID") Long userNo,
                                                   @RequestHeader("X-ROOM-ID") String roomId,
                                                   @RequestParam(name="token") String token){
 
-        ReceiveRequest receiveRequest = ReceiveRequest.builder()
+        ReceiveRequest displayRequest = ReceiveRequest.builder()
                 .userNo(userNo)
                 .roomId(roomId)
                 .token(token)
                 .build();
 
-        CommonResponse response = coinScatterService.display(receiveRequest);
+        CommonResponse response = coinScatterService.display(displayRequest);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
