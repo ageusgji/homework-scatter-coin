@@ -21,7 +21,7 @@ public class CoinScatterController {
     @GetMapping(value = "/scatter")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "7382"),
-            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "NeaMO"),
+            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "MOMO"),
             @ApiImplicitParam(name = "headCount", paramType = "query", defaultValue = "121"),
             @ApiImplicitParam(name = "coins", paramType = "query", defaultValue = "84748")
     })
@@ -46,7 +46,7 @@ public class CoinScatterController {
     @GetMapping(value = "/receive")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "70023"),
-            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "NeaMO")
+            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "MOMO")
     })
     public ResponseEntity<CommonResponse> receive(@RequestHeader("X-USER-ID") Long userNo,
                                           @RequestHeader("X-ROOM-ID") String roomId,
@@ -66,7 +66,7 @@ public class CoinScatterController {
     @GetMapping(value = "/display")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-USER-ID", paramType = "header", defaultValue = "7382"),
-            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "NaeMO")
+            @ApiImplicitParam(name = "X-ROOM-ID", paramType = "header", defaultValue = "MOMO")
     })
     public ResponseEntity<CommonResponse> display(@RequestHeader("X-USER-ID") Long userNo,
                                                   @RequestHeader("X-ROOM-ID") String roomId,

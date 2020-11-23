@@ -1,33 +1,32 @@
+spring:
+  profiles: prod
 
-jpa:
-  database-platform: H2
-  show-sql: true
-  generate-ddl: true
-  hibernate:
-    ddl-auto: create-drop
-    properties:
-      hibernate:
-        format_sql: true
-    format_sql: true
-    use_sql_comments: true
-    id:
-      new_generator_mappings: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+      properties:
+        hibernate:
+          format_sql: true
+      format_sql: true
+      use_sql_comments: true
+      id:
+        new_generator_mappings: true
 
-datasource:
-  platform: h2
-  url: jdbc:h2:mem:testdb?useUnicode=true&characterEncoding=utf8;MODE=mysql;
-  driver-class-name: org.h2.Driver  #h2 드라이버 설정
-  username: sa  # 사용자 이름 (로그인 시 사용)
+  datasource:
+    url: jdbc:mysql://localhost:3306/kakaopaycoin?createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
 
-h2:
-  console:
-    enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
-
-http:
-  encoding:
-    charset: UTF-8
-    enabled: true
-    force: true
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 
 server:
